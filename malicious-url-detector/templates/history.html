@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Check History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
+        <h1 class="text-2xl font-bold mb-4">URL Check History</h1>
+        <table class="min-w-full border-collapse border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 p-2">URL</th>
+                    <th class="border border-gray-300 p-2">Result</th>
+                    <th class="border border-gray-300 p-2">Threat Level</th>
+                    <th class="border border-gray-300 p-2">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="historyTableBody">
+                <!-- History entries will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <a href="/" class="text-blue-500 mt-4 block">Check another URL</a>
+    </div>
+
+    <script>
+        // Fetch history data from the server
+        fetch('/api/history')
+            .then(response => response.json())
+            .then(data => {
+                const historyTableBody = document.getElementById('historyTableBody');
+                data.forEach(entry => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="border border-gray-300 p-2">${entry.url}</td>
+                        <td class="border border-gray-300 p-2">${entry.result}</td>
+                        <td class="border border-gray-300 p-2">${entry.threat_level}</td>
+                        <td class="border border-gray-300 p-2">${entry.timestamp}</td>
+                    `;
+                    historyTableBody.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+url,type
+http://malicious-site.com/phishing,phishing
+https://legitimate-site.com,benign
+http://scam-website.org,malware
+https://trusted-domain.com,benign
+http://hacker-attack.net,defacement

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Check Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
+        <h1 class="text-2xl font-bold mb-4">URL Check Results</h1>
+        
+        <div id="resultContainer" class="p-4 rounded mb-4">
+            <!-- Result will be dynamically inserted here -->
+        </div>
+
+        <div id="threatLevelContainer" class="mb-4">
+            <h3 class="font-semibold mb-2">Threat Level:</h3>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="threatLevelBar" class="h-2.5 rounded-full"></div>
+            </div>
+            <p id="threatLevelText" class="text-sm mt-1"></p>
+        </div>
+
+        <a href="/" class="text-blue-500">Check another URL</a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const result = urlParams.get('result');
+        const threatLevel = urlParams.get('threat_level');
+
+        const resultContainer = document.getElementById('resultContainer');
+        const threatLevelBar = document.getElementById('threatLevelBar');
+        const threatLevelText = document.getElementById('threatLevelText');
+
+        if (result === 'safe') {
+            resultContainer.innerHTML = `
+                <div class="bg-green-100 text-green-800 p-4 rounded">
+                    <h2 class="font-bold">Safe URL</h2>
+                    <p>This URL appears to be safe.</p>
+                </div>
+            `;
+        } else {
+            resultContainer.innerHTML = `
+                <div class="bg-red-100 text-red-800 p-4 rounded">
+                    <h2 class="font-bold">Malicious URL</h2>
+                    <p>Warning: This URL may be dangerous.</p>
+                </div>
+            `;
+        }
+
+        // Set threat level visualization
+        if (threatLevel === 'low') {
+            threatLevelBar.className = 'h-2.5 rounded-full bg-green-500';
+            threatLevelBar.style.width = '33%';
+            threatLevelText.textContent = 'Low threat';
+        } else if (threatLevel === 'medium') {
+            threatLevelBar.className = 'h-2.5 rounded-full bg-yellow-500';
+            threatLevelBar.style.width = '66%';
+            threatLevelText.textContent = 'Medium threat';
+        } else if (threatLevel === 'high') {
+            threatLevelBar.className = 'h-2.5 rounded-full bg-red-500';
+            threatLevelBar.style.width = '100%';
+            threatLevelText.textContent = 'High threat';
+        }
+    </script>
+</body>
+</html>
